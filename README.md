@@ -1,5 +1,5 @@
 # dynamic_exaggeration
-An algorithm for vertically exaggerating DEMs based on peak prominence\
+An algorithm for vertically exaggerating DEMs based on peak prominence and local slope\
 
 
 Phase one:\
