@@ -10,3 +10,8 @@ Phase one:\
 Phase two:\
 -Develop prominence distribution scale\
 -Exaggerate elevation based on prominence scale (flatter areas get exaggerated more, dramatic mountainouse areas less\
+
+Slope:\
+\
+-Assign pixels with a rolling average of absolute value of neighborhood slope
+-Higher values (more steep terrain) will be exaggerated less than lower values (flatter areas)
