@@ -13,5 +13,5 @@ Phase two:\
 
 Slope:\
 \
--Assign pixels with a rolling average of absolute value of neighborhood slope
+-Assign pixels with the standard deviaiton of slope
 -Higher values (more steep terrain) will be exaggerated less than lower values (flatter areas)
