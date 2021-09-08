@@ -7,6 +7,8 @@ elevation changes (like very coarse sandpaper) woul be smooth. Is this really
 what roughness means. Instead I'm interested in deriving roughness from
 slope standard deviation
 
+I'm not the first person to do this, I think Grohmann et al. 2010 was 
+(10.1109/TGRS.2010.2053546)
 """
 
 import rasterio as rs
