@@ -1,17 +1,4 @@
 # dynamic_exaggeration
-An algorithm for vertically exaggerating DEMs based on peak prominence and local slope\
+An algorithm for vertically exaggerating DEMs based on roughness derived from local slope variation\
 
-
-Phase one:\
--Identify peaks in DEM\
--Remove insignificant peaks\
--Calculate prominence of peaks\
-\
-Phase two:\
--Develop prominence distribution scale\
--Exaggerate elevation based on prominence scale (flatter areas get exaggerated more, dramatic mountainouse areas less\
-
-Slope:\
-\
--Assign pixels with the standard deviaiton of slope
--Higher values (more steep terrain) will be exaggerated less than lower values (flatter areas)
+Rough areas (those with lots of slope variation like mountains) will be exaggerated less than smooth areas
