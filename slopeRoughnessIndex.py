@@ -23,7 +23,7 @@ def slope_stdev(dem, neighborhood=3):
     slopeMean = ndimage.uniform_filter(slope,(neighborhood, neighborhood))
     slopeSqrMean = ndimage.uniform_filter(slope**2,(neighborhood,neighborhood))
     slopeVar = slopeSqrMean - slopeMean**2
-    slopeStdev = np.sqrt(slopeVar)
+    slopeStdev = np.sqrt(np.absolute(slopeVar))
     return slopeStdev
 
 def slope_roughness(input_path, output_path, neighborhood=3, interpMethod='linear'):
