@@ -23,7 +23,9 @@ def slope_stdev(dem, neighborhood=3):
     slopeMean = ndimage.uniform_filter(slope,(neighborhood, neighborhood))
     slopeSqrMean = ndimage.uniform_filter(slope**2,(neighborhood,neighborhood))
     slopeVar = slopeSqrMean - slopeMean**2
-    slopeStdev = np.sqrt(np.absolute(slopeVar))
+    slopeStdev = np.sqrt(np.absolute(slopeVar)) #In perfectly flat areas where
+    #variance is ideally zero, float precision can result in a number slightly
+    #below zero. Using the absolute value of variance prevents nonreal results
     return slopeStdev
 
 def slope_roughness(input_path, output_path, neighborhood=3, interpMethod='linear'):
