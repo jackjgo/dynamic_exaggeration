@@ -7,8 +7,6 @@ elevation changes (like very coarse sandpaper) woul be smooth. Is this really
 what roughness means. Instead I'm interested in deriving roughness from
 slope standard deviation
 
-I'm not the first person to do this, I think Grohmann et al. 2010 was 
-(10.1109/TGRS.2010.2053546)
 """
 
 import rasterio as rs
@@ -25,9 +23,10 @@ def slope_stdev(dem, neighborhood=3):
     slopeMean = ndimage.uniform_filter(slope,neighborhood)
     slopeSqrMean = ndimage.uniform_filter(slope**2,neighborhood)
     slopeVar = slopeSqrMean - slopeMean**2
-    slopeStdev = np.sqrt(np.absolute(slopeVar)) #In perfectly flat areas where
-    #variance is ideally zero, float precision can result in a number slightly
-    #below zero. Using the absolute value of variance prevents nonreal results
+    slopeStdev = np.sqrt(np.absolute(slopeVar)) 
+    # In perfectly flat areas where variance is ideally zero, float precision 
+    # can result in a number slightly below zero. Using the absolute value of 
+    # variance prevents nonreal results
     return slopeStdev
 
 def sd_slope(input_path, output_path, neighborhood=3, interpMethod='linear'):
