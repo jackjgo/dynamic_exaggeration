@@ -50,7 +50,6 @@ def dynamicExaggeration_sdSlope(inputPath,
     #------------------Exaggerate------------------ 
     exaggeration = (roughnessZTanh )
     elevExagg = ((band1 * 1) * (exaggeration))
-    q = 6
     elevExagg = (band1 + ((elevExagg - band1) / q)) * exaggFactor 
     print(exaggFactor)
     # In certain situations, smooth mountain peaks surrounded by rough areas 
