@@ -1,18 +1,14 @@
 """
-Tool:               sd slope vertical exaggeration
-Source Name:        
-Version:            ArcGIS Pro 2.8
-Author:             Jack Gonzales
+Tool:               <Tool label>
+Source Name:        <File name>
+Version:            <ArcGIS Version>
+Author:             <Author>
 Usage:              <Command syntax>
-Required Arguments: Input DEM
-                    output destination
-                    exaggeration factor
-Optional Arguments: Neighborhood size
-                    q factor
-Description:        Vertically exaggerates a DEM based on roughness derived
-                    from sd slope. The idea is to exaggerate smooth areas more 
-                    than rough areas
-                    https://github.com/jackjgo/dynamic_exaggeration
+Required Arguments: <parameter0>
+                    <parameter1>
+Optional Arguments: <parameter2>
+                    <parameter3>
+Description:        <Description>
 """
 import arcpy
 from scipy import ndimage
@@ -33,19 +29,13 @@ def slope_stdev(dem, neighborhood=15):
     # squared mean turn out to be (incorrectly) identical, resulting in zero 
     # variance. To get around this, we can use the generic_filter instead, 
     # which produces the correct result, albeit slower.
-    slopeStdev = ndimage.generic_filter(slope, 
-                                        np.std, 
-                                        size=(15,15), 
-                                        mode='reflect')
+    slopeStdev = ndimage.generic_filter(slope, np.std, size=(15,15), mode='reflect')
     # In perfectly flat areas where variance is ideally zero, float precision 
     # can result in a number slightly below zero. Using the absolute value of 
     # variance prevents nonreal results
     return slopeStdev
-def dynamicExaggeration_sdSlope(dem, 
-                                exaggFactor, 
-                                neighborhood=15, 
-                                q=6, 
-                                blur=30):
+
+def dynamicExaggeration_sdSlope(dem, exaggFactor, neighborhood=15, q=6, blur=30):
     """
     scalingFactor = how much you want the modified terrain to be exaggerated 
     (e.g. 2x,3x, etc.).
@@ -60,8 +50,7 @@ def dynamicExaggeration_sdSlope(dem,
     
     # Calculate z-score of roughness, then use tanh to recast z-scores from 2-3
     # and invert, so that low values indicate rough areas
-    roughnessZ = ((roughnessFiltered - np.mean(roughnessFiltered))) /\
-                 np.std(roughnessFiltered)
+    roughnessZ = ((roughnessFiltered - np.mean(roughnessFiltered))) / np.std(roughnessFiltered)
     # The 2 added at the end moves the tanh from 0-1 to 2-3, which I found to 
     # work OK. It's worth experimenting with the exaggeration range and stretch
     roughnessZTanh = (np.tanh(roughnessZ) - 1) * (-1) + 2 
@@ -72,15 +61,11 @@ def dynamicExaggeration_sdSlope(dem,
     # can get squashed. A larger q value will reduce the impact of the dynamic
     # par of the exaggeration. The exaggFactor factor is used similarly to 
     # standard uniform vertical exaggeration.
+#    q=6
     elevExagg = (dem + ((elevExagg - dem) / q)) * exaggFactor 
     return elevExagg
 
-def ScriptTool(DEM_layer, 
-               Output_destination, 
-               Exaggeration_factor, 
-               Neighborhood=15, 
-               q = 6, 
-               blur = 30):
+def ScriptTool(DEM_layer, Output_destination, Exaggeration_factor, Neighborhood=15, q=6, blur=30):
     #-----------------Load input DEM-----------------
     DEM_layer = arcpy.Raster(DEM_layer)
     dem = arcpy.RasterToNumPyArray(DEM_layer)
@@ -89,16 +74,10 @@ def ScriptTool(DEM_layer,
     cellSize = DEM_layer.meanCellWidth
     
     #-------------------Exaggerate-------------------
-    exaggerated_elevation = dynamicExaggeration_sdSlope(dem, 
-                                                        Exaggeration_factor, 
-                                                        Neighborhood, 
-                                                        q, 
-                                                        blur)
+    exaggerated_elevation = dynamicExaggeration_sdSlope(dem, Exaggeration_factor, Neighborhood, q, blur)
     
     #-----------Create and save new image------------
-    newRaster = arcpy.NumPyArrayToRaster(exaggerated_elevation, 
-                                         lowerLeft, 
-                                         cellSize)
+    newRaster = arcpy.NumPyArrayToRaster(exaggerated_elevation, lowerLeft, cellSize)
     newRaster.save(Output_destination)
     
     #--------------Add new image to map--------------
@@ -120,10 +99,6 @@ if __name__ == '__main__':
     
     print(Exaggeration_factor)
     
-    ScriptTool(DEM_layer, 
-               Output_destination, 
-               Exaggeration_factor, 
-               Neighborhood, 
-               q)
+    ScriptTool(DEM_layer, Output_destination, Exaggeration_factor, Neighborhood, q)
     #ScriptTool('./srtm_15_04.tif', './out.tif', 2, 15, 6)
 
