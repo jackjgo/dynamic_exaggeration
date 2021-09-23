@@ -5,8 +5,6 @@ The idea is to ex aggerate smooth areas (e.g. plains) more than rough areas
 (e.g. mountains). This allows both high and low relief features to be shown
 well in the same 3D map, rather than one being exaggerated too much and the
 other too little.
-
-v1.1
 """
 
 from sd_slope import sd_slope
